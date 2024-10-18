@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ item.name }}的业务流程</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+<div class="container">
+    <h1>{{ item.name }}的业务流程</h1>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>阶段顺序</th>
+                <th>流程阶段名称</th>
+                <th>文件</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for process in processes %}
+            <tr>
+                <td>{{ process.order }}</td>
+                <td>{{ process.name }}</td>
+                <td>
+                    {% for pf in process_files %}
+                        {% if pf.process.id == process.id %}
+                            <a href="{{ pf.file.url }}">{{ pf.file.name }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>上传文件</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">上传</button>
+    </form>
+
+    <a href="{% url 'item_list' item.site.id %}" class="btn btn-secondary mt-3">返回物品列表</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+    <meta charset="UTF-8">
+    <title>站点列表</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+<div class="container">
+    <h1>站点列表</h1>
+    <ul class="list-group">
+        {% for site in sites %}
+        <li class="list-group-item">
+            <a href="{% url 'item_list' site.id %}">{{ site.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>
